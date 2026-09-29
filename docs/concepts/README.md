@@ -6,6 +6,12 @@ Deep dives into individual mechanisms, written from the [concept template](../co
 - Time-locked fee updates — *planned*.
 - [Escrow](./escrow.md)
 - [Subscriptions and recurring billing](./subscriptions.md)
+- Invoices, drafts, and signed invoices — *planned*.
+- [Refunds and voids](./refunds-and-voids.md) — full refunds, partial refunds, voids, amendments, and buyer-initiated expiry claims.
+- Time-locked fee updates — *planned*.
+- Escrow and arbiter release — *planned*.
+- Subscriptions and recurring billing — *planned*.
+- [Merchants](./merchants.md) — registration, activation, verification, configuration, and the state-to-operation matrix.
 - [Event ticketing, dynamic pricing, and resale](./event-ticketing.md)
 - [Merchant analytics and transaction history](./analytics-and-history.md)
 - [Auto-withdrawal and merchant settlement](./auto-withdrawal.md)
