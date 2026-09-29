@@ -2,7 +2,7 @@
 
 Per-contract reference pages, one per crate under [`contracts/`](../../contracts/), written from the [contract reference template](../contributing/templates/contract-reference-template.md).
 
-- Shade (`contracts/shade/`) — *planned*.
+- [Shade](./shade.md) (`contracts/shade/`) — the main payment-gateway contract.
 - Account (`contracts/account/`) — *planned*.
 - Escrow (`contracts/escrow/`) and Escrow Factory (`contracts/escrow_factory/`) — *planned*.
 - Subscription (`contracts/subscription/`) — *planned*.
