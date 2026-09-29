@@ -2,10 +2,10 @@
 
 Deep dives into individual mechanisms, written from the [concept template](../contributing/templates/concept-template.md). Reference pages and guides link here for the "why," not just the "how."
 
-- Invoices, drafts, and signed invoices — *planned*.
+- [Invoice lifecycle and statuses](./invoice-lifecycle.md)
 - Time-locked fee updates — *planned*.
-- Escrow and arbiter release — *planned*.
-- Subscriptions and recurring billing — *planned*.
+- [Escrow](./escrow.md)
+- [Subscriptions and recurring billing](./subscriptions.md)
 - [Event ticketing, dynamic pricing, and resale](./event-ticketing.md)
 - [Merchant analytics and transaction history](./analytics-and-history.md)
 - [Auto-withdrawal and merchant settlement](./auto-withdrawal.md)
