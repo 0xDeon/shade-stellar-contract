@@ -2,6 +2,10 @@
 
 Deep dives into individual mechanisms, written from the [concept template](../contributing/templates/concept-template.md). Reference pages and guides link here for the "why," not just the "how."
 
+- [Invoice lifecycle and statuses](./invoice-lifecycle.md)
+- Time-locked fee updates — *planned*.
+- [Escrow](./escrow.md)
+- [Subscriptions and recurring billing](./subscriptions.md)
 - Invoices, drafts, and signed invoices — *planned*.
 - [Refunds and voids](./refunds-and-voids.md) — full refunds, partial refunds, voids, amendments, and buyer-initiated expiry claims.
 - Time-locked fee updates — *planned*.
