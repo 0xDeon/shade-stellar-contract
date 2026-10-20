@@ -1,17 +1,41 @@
 # Contributing to Shade Stellar Contract
 
-Thank you for your interest in contributing to this project! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to this project! This document takes you from picking up a numbered issue to getting a PR merged, end to end, so you shouldn't need to ask a maintainer what to do next at any step along the way.
+
+## Finding and claiming an issue
+
+Almost all work in this repository starts from a numbered GitHub issue — look at merged PR titles and branch names in the repository history and you'll see the pattern (`docs/465-466-467-468-ops-runbooks`, `feat/campaign-kyc-verification-system-324`, and so on): a contributor picked up one or more open, unassigned issues and referenced their numbers in the branch name and PR.
+
+1. Browse the repository's [Issues tab](https://github.com/ShadeProtocol/shade-stellar-contract/issues) for an open issue with no assignee and no linked in-progress PR.
+2. Comment on the issue to claim it before you start writing code — this avoids two people duplicating the same work. A short "I'd like to work on this" is enough.
+3. **Expected turnaround:** once you've claimed an issue, aim to open a draft PR (or at least push a branch with visible progress) within **7 days**. If an issue has been claimed for more than 7 days with no activity, maintainers may unassign it and let someone else pick it up — this isn't a penalty, it just keeps issues from sitting blocked behind an inactive claim. If you need more time, say so in a comment on the issue before the window closes.
+4. If you want to work on something that doesn't have an open issue yet (a new feature, a larger refactor), open an issue describing it first and wait for a maintainer to weigh in before investing significant time — this avoids spending effort on something that won't be merged as proposed.
 
 ## Getting Started
 
 1. Fork the repository
 2. Clone your fork: `git clone https://github.com/ShadeProtocol/shade-stellar-contract.git`
-3. Create a new branch: `git checkout -b feature/your-feature-name`
+3. Create a new branch following the [branch naming convention](#branch-naming) below, e.g. `git checkout -b feat/your-feature-name-123` (where `123` is the issue number)
 4. Make your changes
-5. Test your changes
+5. Run the [pre-PR checklist](#pre-pr-checklist)
 6. Commit your changes (see [Commit Guidelines](#commit-guidelines))
-7. Push to your fork: `git push origin feature/your-feature-name`
-8. Open a Pull Request
+7. Push to your fork: `git push origin feat/your-feature-name-123`
+8. Open a Pull Request using the [PR template](#pull-request-process), linking the issue you claimed
+
+## Branch naming
+
+Name branches `<type>/<short-description>`, optionally suffixed with the issue number(s) the branch closes, matching this repository's actual history:
+
+| Type | Use for | Example |
+|---|---|---|
+| `feat/` | A new feature or capability | `feat/campaign-kyc-verification-system-324` |
+| `fix/` | A bug fix | `fix/invoice-rounding-error-212` |
+| `docs/` | Documentation-only changes | `docs/465-466-467-468-ops-runbooks` |
+| `refactor/` | Code restructuring with no behavior change | `refactor/platform-fee-routing` |
+| `test/` | Adding or updating tests only | `test/subscription-grace-coverage` |
+| `chore/` | Tooling, CI, formatting, maintenance | `chore/update-soroban-sdk` |
+
+These prefixes mirror the [commit type](#commit-guidelines) you'll use most in that branch's commits — a `docs/` branch should contain almost entirely `docs:` commits, and so on. When a branch addresses multiple numbered issues at once (common for a batch of related docs pages), list every issue number, hyphen-separated, as this repository's own history does.
 
 ## Development Setup
 
@@ -57,6 +81,19 @@ cargo fmt --all -- --check
 # Run clippy
 cargo clippy --workspace --all-features -- -D warnings
 ```
+
+### Using the Makefile
+
+The [`Makefile`](Makefile) wraps the most common commands above:
+
+```bash
+make fmt    # cargo fmt --all
+make lint   # cargo clippy --all-targets --all-features -- -D warnings
+make test   # cargo test --all
+make build  # cargo build --target wasm32-unknown-unknown --release
+```
+
+These are exactly the commands CI runs in [`.github/workflows/ci.yml`](.github/workflows/ci.yml) — running them locally before pushing means CI should not surprise you.
 
 ## Pre-commit Hooks
 
@@ -114,21 +151,49 @@ fix(test): correct assertion in hello_world test
 docs: update README with installation instructions
 ```
 
+## Pre-PR Checklist
+
+Run this checklist locally before opening (or re-requesting review on) a PR — it matches what CI actually enforces, so a clean run here means CI should pass too:
+
+- [ ] `make fmt` (or `cargo fmt --all -- --check` to verify without rewriting) — no formatting diffs.
+- [ ] `make lint` (`cargo clippy --workspace --all-features -- -D warnings`) — zero warnings.
+- [ ] `make test` (`cargo test --workspace --all-features`) — full workspace suite passes, not just the crate you touched.
+- [ ] **Snapshot check:** `cargo test` generates `test_snapshots/` directories as a side effect (see [Running the test suite § Test snapshots](docs/getting-started/running-tests.md#test-snapshots)). This repository does **not** commit these — confirm `git status` shows no `test_snapshots/` path before staging anything. If one slipped into a previous commit, remove it rather than leaving it in the PR.
+- [ ] **Docs checks:** if the PR adds or changes a page under `docs/`, it satisfies the [Documentation Style Guide's review checklist](docs/contributing/documentation-style-guide.md#review-checklist) (accuracy against code, working links, spell-check, correct template, terminology, style, and index updated). If the PR changes a public interface, it also satisfies [Keeping reference docs in sync](#keeping-reference-docs-in-sync) below.
+- [ ] Commit messages follow the [Commit Guidelines](#commit-guidelines).
+
 ## Pull Request Process
 
-1. **Update Documentation**: If you're adding a new feature, update the README or relevant docs
-2. **Add Tests**: Ensure all new code is covered by tests
-3. **Run Checks**: Make sure all tests pass and code is formatted
-4. **Fill PR Template**: Complete all relevant sections in the PR template
-5. **Request Review**: Request review from maintainers
+1. **Run the [Pre-PR Checklist](#pre-pr-checklist)** above.
+2. **Fill out the [PR template](.github/pull_request_template.md)** — GitHub pre-fills it automatically when you open the PR; complete every section (summary, linked issue, test evidence, and documentation updates) rather than deleting the ones that feel optional.
+3. **Link the issue** you claimed (`Fixes #123`) so it closes automatically on merge.
+4. **Request review** from a maintainer.
+5. **Respond to feedback** — see [Review expectations](#review-expectations) below for what happens next.
+
+## Review expectations
+
+- **Approvals required:** at least one maintainer approval before merge. A PR touching contract logic in `contracts/*/src/` that moves funds or changes authorization (payments, escrow release, subscription billing, withdrawals) should get a second, independent look before merge — the same "not just self-reviewed by the author" principle the [Upgrade Runbook](docs/operations/upgrade-runbook.md) applies to upgrades.
+- **Response times:** maintainers aim to leave an initial review (approval, requested changes, or at least a comment) within a few business days of a PR being marked ready for review. If you haven't heard anything after a week, a polite ping on the PR is welcome — it's not pushy, it's often just what was needed to surface a stalled review queue.
+- **Handling requested changes:** push additional commits to the same branch rather than force-pushing over history mid-review — reviewers may have left line comments anchored to specific commits, and a force-push can orphan those threads. Once a reviewer's comments are addressed, reply on each thread (or resolve it, if your review tooling allows) so the reviewer can tell at a glance what's been handled versus what's still open, then re-request review.
+- **Merge method:** PRs are merged via GitHub's standard merge commit (see the `Merge pull request #NNN from ...` commits in this repository's history) — you don't need to squash or rebase your branch yourself before merge unless a maintainer asks for it to clean up a messy commit history.
 
 ## Documentation Contributions
 
 If your PR adds or changes a page under `docs/`, follow the [Documentation Style Guide](docs/contributing/documentation-style-guide.md) and use the matching template from [`docs/contributing/templates/`](docs/contributing/templates/). Every docs PR must satisfy the [review checklist](docs/contributing/documentation-style-guide.md#review-checklist) before it can be merged.
 
+For a deeper understanding of how the pieces you're documenting fit together before you write about them, read the [Architecture overview](docs/architecture/overview.md) and the [testing guide](docs/getting-started/running-tests.md) — a docs PR that misdescribes a cross-contract call or a test convention is harder to catch in review than one that's simply incomplete.
+
 ### Keeping reference docs in sync
 
-Any PR that changes `ShadeTrait` (adds, removes, or renames a function) must also update `docs/reference/shade-interface.md` in the same PR. Similarly, any change to a public type in `contracts/shade/src/types.rs` must update `docs/reference/data-types.md`. This ensures the API reference stays accurate.
+A PR changing a **public interface** must update the matching reference docs in the same PR — "public interface" means any of the following:
+
+- `ShadeTrait` (adds, removes, or renames a function) → update `docs/reference/shade-interface.md`.
+- A public type in `contracts/shade/src/types.rs` → update `docs/reference/data-types.md`.
+- The public `#[contractimpl]` surface of a standalone contract crate (`account`, `escrow`, `subscription`, `ticketing`, `crowdfund`, and their factories) → update that contract's page under `docs/contracts/` (e.g. a change to `contracts/subscription/src/lib.rs`'s public functions updates `docs/contracts/subscription.md`).
+- A new or changed `#[contractevent]` → update `docs/reference/events.md`.
+- A new or changed `#[contracterror]` variant → update `docs/reference/errors.md`.
+
+This keeps the API reference trustworthy for integrators who read the docs instead of the Rust source.
 
 ### PR Checklist
 
@@ -138,7 +203,7 @@ Before submitting a PR, ensure:
 - [ ] All tests pass locally
 - [ ] Code is properly formatted (`cargo fmt`)
 - [ ] No clippy warnings (`cargo clippy`)
-- [ ] Documentation is updated (if needed)
+- [ ] Documentation is updated (if needed) — see [Keeping reference docs in sync](#keeping-reference-docs-in-sync)
 - [ ] Commit messages follow the guidelines
 - [ ] PR description is clear and complete
 
@@ -183,6 +248,12 @@ If you have questions, feel free to:
 - Open an issue for discussion
 - Ask in pull request comments
 - Contact the maintainers
+
+## Related reading
+
+- [Documentation Style Guide](docs/contributing/documentation-style-guide.md) — tone, formatting, and terminology rules for anything under `docs/`.
+- [Architecture overview](docs/architecture/overview.md) — how the contracts, factories, and components fit together before you change or document any of them.
+- [Running the test suite](docs/getting-started/running-tests.md) — test layout, filtering, snapshot behavior, and the checklist for adding a new test module.
 
 Thank you for contributing to the development! 🎉
 

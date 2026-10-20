@@ -6,6 +6,8 @@ Deep dives into individual mechanisms, written from the [concept template](../co
 - [Payment flows: full, partial, and batch](./payments.md) — preconditions, fee splitting, rounding, and batch atomicity for `pay_invoice`, `pay_invoice_partial`, and `pay_invoices_batch`.
 - [Escrow](./escrow.md)
 - [Subscriptions and recurring billing](./subscriptions.md)
+- [Subscription billing authorization and allowances](./subscription-billing-authorization.md) — `authorize_billing`, `get_billing_allowance`, `revoke_billing_authorization`, and how plan price changes affect an existing allowance (standalone `subscription` contract).
+- [Subscription grace periods and past-due handling](./subscription-grace-periods.md) — the `Active`/`PastDue`/`Terminated` state machine, recovery, and event emission (standalone `subscription` contract).
 - Invoices, drafts, and signed invoices — *planned*.
 - [Refunds and voids](./refunds-and-voids.md) — full refunds, partial refunds, voids, amendments, and buyer-initiated expiry claims.
 - [Fees, volume discounts, and time-locked fee changes](./fees.md) — `calculate_fee`, merchant volume discounts, and the `propose_fee` / `execute_fee` timelock.
