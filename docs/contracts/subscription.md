@@ -108,9 +108,11 @@ Unlike the hub's `charge_subscription`, this crate relies on a standard token al
 - `get_billing_allowance(customer, sub_id)` — reads the live token allowance.
 - `revoke_billing_authorization(customer, sub_id)` — customer-authorized, zeroes the allowance without changing subscription status.
 
+See [Subscription billing authorization and allowances](../concepts/subscription-billing-authorization.md) for the full breakdown of how cycles map to allowance amounts, how `update_plan_amount` interacts with an existing allowance, and a client example of subscribing and authorizing in one flow.
+
 ## Grace period
 
-Authority: `test_grace.rs` plus the `PastDue`/`Terminated` handling in `lib.rs`.
+Authority: `test_grace.rs` plus the `PastDue`/`Terminated` handling in `lib.rs`. See [Subscription grace periods and past-due handling](../concepts/subscription-grace-periods.md) for the full state diagram, event-emission details, and test-by-test cross-reference.
 
 - **Default is `0`** (no grace) unless the merchant calls `set_plan_grace_period` — with `grace_period == 0`, the very first failed charge terminates the subscription immediately (no `PastDue` stopover).
 - **Begins** the moment a charge attempt fails while the subscription is `Active` and `grace_period > 0`: status becomes `PastDue`, `past_due_since` is set to the timestamp of that failed attempt (not the original due date).
@@ -195,5 +197,8 @@ The two implementations diverge substantially, not just in surface API:
 ## Related pages
 
 - [Subscriptions and recurring billing](../concepts/subscriptions.md) — the Shade hub's own subscription feature, documented in full (this page intentionally does not repeat that content).
+- [Subscription billing authorization and allowances](../concepts/subscription-billing-authorization.md) — how `authorize_billing`'s cycle count maps to a token allowance, and what a price change does to an existing authorization.
+- [Subscription grace periods and past-due handling](../concepts/subscription-grace-periods.md) — the full `PastDue`/`Terminated` lifecycle and event emission.
+- [Billing Keeper Operator Guide](../operations/billing-keeper.md) — running the off-chain process that drives `charge`/`process_charge`/`process_billing_cycle`.
 - [Escrow contract reference](./escrow.md) — the sibling standalone-crate-vs-hub-component pattern for escrow.
 - [Protocol Glossary](../glossary.md) — `merchant`, `subscription`, `subscription plan` terms.
