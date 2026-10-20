@@ -336,6 +336,7 @@ Deactivating a plan is therefore a merchant-level decision to stop accepting new
 
 ## Related pages
 
+* [Choosing a subscription model](./choosing-a-subscription-model.md)
 * [Escrow](./escrow.md)
 * [Token whitelisting](./token-whitelisting.md)
 * [Fiat pricing and oracles](./fiat-pricing-and-oracles.md)

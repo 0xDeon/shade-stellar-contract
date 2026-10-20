@@ -141,6 +141,7 @@ sequenceDiagram
 - [Invoice lifecycle and statuses](./invoice-lifecycle.md)
 - [Auto-withdrawal and merchant settlement](./auto-withdrawal.md)
 - [Refunds and voids](./refunds-and-voids.md)
+- [Amounts, token decimals, and rounding](./amounts-and-rounding.md)
 - [Payment payloads, swap routing, and the cross-chain bridge placeholder](./payment-payloads-and-routing.md)
 
 ← [Back to concepts](./README.md)

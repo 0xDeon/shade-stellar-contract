@@ -185,5 +185,6 @@ The merchant's per-merchant override (`200` bps) is what the volume discount is 
 - [Payment flows: full, partial, and batch](./payments.md)
 - [Merchants](./merchants.md)
 - [Merchant analytics and transaction history](./analytics-and-history.md)
+- [Amounts, token decimals, and rounding](./amounts-and-rounding.md)
 
 ← [Back to concepts](./README.md)

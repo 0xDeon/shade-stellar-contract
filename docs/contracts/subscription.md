@@ -196,6 +196,7 @@ The two implementations diverge substantially, not just in surface API:
 
 ## Related pages
 
+- [Choosing a subscription model](../concepts/choosing-a-subscription-model.md) — hub vs. standalone comparison, recommendations, and migration.
 - [Subscriptions and recurring billing](../concepts/subscriptions.md) — the Shade hub's own subscription feature, documented in full (this page intentionally does not repeat that content).
 - [Subscription billing authorization and allowances](../concepts/subscription-billing-authorization.md) — how `authorize_billing`'s cycle count maps to a token allowance, and what a price change does to an existing authorization.
 - [Subscription grace periods and past-due handling](../concepts/subscription-grace-periods.md) — the full `PastDue`/`Terminated` lifecycle and event emission.

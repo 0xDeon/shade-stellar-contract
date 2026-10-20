@@ -385,6 +385,7 @@ Oracle administrators must therefore configure these values consistently with th
 
 ## Related pages
 
+* [Amounts, token decimals, and rounding](./amounts-and-rounding.md)
 * [Token whitelisting](./token-whitelisting.md)
 * [Escrow](./escrow.md)
 * [Contracts](../contracts/README.md)

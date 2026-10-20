@@ -95,7 +95,7 @@ flowchart LR
 
 - **Refund adjustments.** Refunds do not reduce `total_volume`, `total_fees`, or `transaction_count`. The analytics reflect gross activity, not net.
 - **Off-chain activity.** Payments settled entirely off-chain or through external systems are invisible to on-chain analytics.
-- **Event ticketing volume.** Analytics are updated by `record_merchant_payment` (invoice and subscription flows). Ticket purchases use a separate flow and are not reflected in these counters.
+- **Some ticketing volume.** `purchase_ticket` is recorded because it uses the fee router. `purchase_tickets_bulk`, `resell_ticket`, and `buy_ticket_from_listing` are not. See [Token analytics and market share metrics](./token-analytics.md#volume-accounting).
 - **Expired or pruned data.** On-chain data persists indefinitely; there is no automatic pruning. The `last_updated` field indicates freshness but does not expire.
 
 ## On-chain analytics vs. event indexing
@@ -111,5 +111,6 @@ Use on-chain analytics for dashboards, quick queries, and verification. Use even
 
 ## Related pages
 
+- [Token analytics and market share metrics](./token-analytics.md)
 - [Invoices and payment](./payment-payloads-and-routing.md)
 - [Auto-withdrawal and merchant settlement](./auto-withdrawal.md)
